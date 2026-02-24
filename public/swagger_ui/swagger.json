@@ -31,16 +31,49 @@
                         "description": "Exemplo consulta cliente por ID"
                     }
                 }
-            },
+            }
+        },
+        "/api/v1/cliente": {
             "post": {
                 "tags": [
                     "Cliente"
                 ],
                 "summary": "Insere um cliente novo",
-                "operationId": "b12e7ed080f97f8f54665887e3d4a2dd",
+                "operationId": "b189dc13fdf1e0097d688a9176a83c50",
+                "requestBody": {
+                    "description": "Objeto do cadastro",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "document"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Henrique"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "henrique@gmail.com"
+                                    },
+                                    "document": {
+                                        "type": "string",
+                                        "example": "000.000.000-99"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Exemplo inserir e editar cliente"
+                        "description": "Exemplo inserir cliente"
                     }
                 }
             }

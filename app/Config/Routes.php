@@ -19,6 +19,7 @@ $routes->group('api', function ($routes) {
 
         //Rotas Entidades
         $routes->get('cliente/(:num)', 'Api\V1\cliente::index/$1');
+        $routes->post('cliente', 'Api\V1\cliente::add');
         $routes->get('proposta', 'Api\V1\proposta::index');
         $routes->get('auditoria', 'Api\V1\auditoria::index');
 

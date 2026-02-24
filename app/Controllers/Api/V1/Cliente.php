@@ -27,15 +27,41 @@ class Cliente extends BaseController
         ], 200);
     }
 
-    #[OAT\Post(path: '/api/v1/cliente/{id}', summary:"Insere um cliente novo", tags:["Cliente"])]
-    #[OAT\Response(response: '200', description: 'Exemplo inserir e editar cliente')]
-    public function add($data): string
+    #[OAT\Post(path: '/api/v1/cliente', summary:"Insere um cliente novo", tags:["Cliente"])]
+    #[OAT\RequestBody(
+        description:"Objeto do cadastro", 
+        required: true,
+        content: new OAT\MediaType(
+            mediaType: 'multipart/form-data',
+            schema: new OAT\Schema(
+                type: 'object',
+                required: ['nome', 'email', 'document'],
+                properties: [
+                    new OAT\Property(property: 'nome', type: 'string', example:"Henrique"),
+                    new OAT\Property(property: 'email', type: 'string', example:"henrique@gmail.com", format:"email"),
+                    new OAT\Property(property: 'document', type: 'string', example:"000.000.000-99")
+                ],
+            )
+        )
+    )]
+    #[OAT\Response(response: '200', description: 'Exemplo inserir cliente')]
+    public function add()
     {
-        $query   = $this->db->query('SELECT * FROM cliente');
-        $results = $query->getResultArray();
-        var_dump($results);
-        die;
-        return view('welcome_message');
+        $data = $this->request->getPost();
+        $data['document'] = preg_replace('/[^0-9]/', '', $data['document']);
+
+        $builder = $this->db->table('cliente');
+        $builder->insert($data);
+        $insertId = $this->db->insertID();
+        
+        if( !isset($insertId) || !$insertId )
+            return $this->failNotFound('Cliente não encontrado');
+
+        return $this->respond([
+            'status' => 'success',
+            'messages' => 'Cliente cadastrado com sucesso!',
+            'data'   => ['client_id' => $insertId]
+        ], 200);
     }
 
 }
