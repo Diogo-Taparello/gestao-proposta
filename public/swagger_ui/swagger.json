@@ -1,0 +1,54 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API - Gestão de Propostas",
+        "version": "v1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/v1/cliente/{id}": {
+            "get": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Lista o cliente de acordo com o ID informado",
+                "operationId": "35a96a623fa7d9036a0203a1d5e2cd01",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do Usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo consulta cliente por ID"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cliente"
+                ],
+                "summary": "Insere um cliente novo",
+                "operationId": "b12e7ed080f97f8f54665887e3d4a2dd",
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir e editar cliente"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cliente"
+        }
+    ]
+}
