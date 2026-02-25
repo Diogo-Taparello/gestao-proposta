@@ -4,6 +4,7 @@ namespace App\Controllers\Api\V1;
 use App\Controllers\BaseController;
 use OpenApi\Attributes as OAT;
 use CodeIgniter\API\ResponseTrait;
+use App\Models\ClienteModel;
 
 class Cliente extends BaseController
 {
@@ -14,9 +15,9 @@ class Cliente extends BaseController
     #[OAT\Response(response: '200', description: 'Exemplo consulta cliente por ID')]
     public function index($id)
     {
-        $query = $this->db->table('cliente')->select('*')->where('id', $id)->get();
-        $client = $query->getRowArray();
-        
+        $clientModel = new ClienteModel;
+        $client = $clientModel->find($id);
+
         if( !isset($client) )
             return $this->failNotFound('Cliente não encontrado');
 
@@ -50,9 +51,11 @@ class Cliente extends BaseController
         $data = $this->request->getPost();
         $data['document'] = preg_replace('/[^0-9]/', '', $data['document']);
 
-        $builder = $this->db->table('cliente');
-        $builder->insert($data);
-        $insertId = $this->db->insertID();
+        
+        $clientModel = new ClienteModel;
+        $clientModel->insert($data);
+
+        $insertId = $clientModel->getInsertID();
         
         if( !isset($insertId) || !$insertId )
             return $this->failNotFound('Cliente não encontrado');

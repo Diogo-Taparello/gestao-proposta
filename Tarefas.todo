@@ -2,7 +2,7 @@ Endpoints mínimos:
     ✔ POST /api/v1/clientes @done(26-02-24 21:20)
     ✔ GET /api/v1/clientes/{id} @done(26-02-24 21:20)
     ✔ POST /api/v1/propostas @done(26-02-24 21:20)
-    ☐ PATCH /api/v1/propostas/{id}
+    ✔ PATCH /api/v1/propostas/{id} @done(26-02-25 02:35)
     ✔ POST /api/v1/propostas/{id}/submit @done(26-02-25 01:13)
     ✔ POST /api/v1/propostas/{id}/approve @done(26-02-25 01:13)
     ✔ POST /api/v1/propostas/{id}/reject @done(26-02-25 01:13)
@@ -14,7 +14,8 @@ Endpoints mínimos:
 Ajustes necessários:
     ✔ Fluxo de status controlado @done(26-02-25 01:58)
     ✔ Auditoria obrigatória @done(26-02-25 01:58)
-    ☐ Criar estrutura de models
+    ✔ Criar estrutura de models cliente @done(26-02-25 03:30)
+    ☐ Criar estrutura de models proposta
     ☐ Criação e submit com Idempotency-Key
     ✔ Controle de versão da proposta no update @done(26-02-25 02:30)
     ☐ Controle de versão da proposta ao alterar status
