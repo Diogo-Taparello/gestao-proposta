@@ -25,9 +25,9 @@ $routes->group('api', function ($routes) {
         $routes->post('proposta/(:num)/approve', 'Api\V1\proposta::change_status/$1/APPROVED');
         $routes->post('proposta/(:num)/reject', 'Api\V1\proposta::change_status/$1/REJECTED');
         $routes->post('proposta/(:num)/cancel', 'Api\V1\proposta::change_status/$1/CANCELED');
+        $routes->get('proposta/(:num)/auditoria', 'Api\V1\proposta::auditoria/$1');
         $routes->get('proposta', 'Api\V1\proposta::all');
         $routes->post('proposta', 'Api\V1\proposta::add');
-        $routes->get('auditoria', 'Api\V1\auditoria::index');
 
     });
 });

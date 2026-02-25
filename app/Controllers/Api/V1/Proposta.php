@@ -98,12 +98,11 @@ class Proposta extends BaseController
             mediaType: 'multipart/form-data',
             schema: new OAT\Schema(
                 type: 'object',
-                required: ['cliente_id', 'produto', 'valor_mensal', 'status', 'origem'],
+                required: ['cliente_id', 'produto', 'valor_mensal', 'origem'],
                 properties: [
                     new OAT\Property(property: 'cliente_id', type: 'integer', example: 1),
                     new OAT\Property(property: 'produto', type: 'string', example:"Produto de Teste 2"),
                     new OAT\Property(property: 'valor_mensal', type: 'decimal', example:"16.90"),
-                    new OAT\Property(property: 'status', type: 'string', enum: ['DRAFT','SUBMITTED','APPROVED','REJECTED','CANCELED'], example:"APPROVED"),
                     new OAT\Property(property: 'origem', type: 'string', enum: ['APP', 'SITE', 'API'], example:"SITE"),
                     new OAT\Property(property: 'versao', type: 'integer', example:"1"),
                 ],
@@ -114,13 +113,15 @@ class Proposta extends BaseController
     public function add()
     {
         $data = $this->request->getPost();
+        $data['status'] = 'DRAFT';
 
-        $builder = $this->db->table('proposta');
-        $builder->insert($data);
+        $this->db->table('proposta')->insert($data);
         $insertId = $this->db->insertID();
-        
+
         if( !isset($insertId) || !$insertId )
-            return $this->failNotFound('Proposta não encontrada');
+            return $this->failNotFound('Erro ao cadastrar nova proposta');
+
+        $this->db->table('auditoria')->insert(array('proposta_id' => $insertId, 'actor' => 'user:1', 'evento' => 'CREATED', 'payload' => json_encode($data)));
 
         return $this->respond([
             'status' => 'success',
@@ -164,4 +165,24 @@ class Proposta extends BaseController
         ], 200);
     }
 
+    #[OAT\Get(path: '/api/v1/proposta/{id}/auditoria', summary:"Lista de auditorias de acordo com o ID da proposta", tags:["Auditoria"])]
+    #[OAT\Parameter(name:"id", in:"path", required:true, description:"ID da Proposta")]
+    #[OAT\Response(response: '200', description: 'Exemplo consulta auditorias por ID da Proposta')]
+    public function auditoria($id)
+    {
+        $query = $this->db->table('auditoria')->select('*')->where('proposta_id', $id)->get();
+        $auditorias = $query->getResultArray();
+        
+        if( !isset($auditorias) )
+            return $this->failNotFound('Erro ao consultar auditorias');
+
+        if( empty($auditorias) )
+            return $this->failNotFound('Proposta não possui auditoria');
+
+        return $this->respond([
+            'status' => 'success',
+            'messages' => 'Auditorias da proposta encontradas com sucesso!',
+            'data'   => $auditorias
+        ], 200);
+    }
 }

@@ -193,7 +193,6 @@
                                     "cliente_id",
                                     "produto",
                                     "valor_mensal",
-                                    "status",
                                     "origem"
                                 ],
                                 "properties": {
@@ -208,17 +207,6 @@
                                     "valor_mensal": {
                                         "type": "decimal",
                                         "example": "16.90"
-                                    },
-                                    "status": {
-                                        "type": "string",
-                                        "enum": [
-                                            "DRAFT",
-                                            "SUBMITTED",
-                                            "APPROVED",
-                                            "REJECTED",
-                                            "CANCELED"
-                                        ],
-                                        "example": "APPROVED"
                                     },
                                     "origem": {
                                         "type": "string",
@@ -333,6 +321,28 @@
                     }
                 }
             }
+        },
+        "/api/v1/proposta/{id}/auditoria": {
+            "get": {
+                "tags": [
+                    "Auditoria"
+                ],
+                "summary": "Lista de auditorias de acordo com o ID da proposta",
+                "operationId": "50dccd94960a08513476f15d075782d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo consulta auditorias por ID da Proposta"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -341,6 +351,9 @@
         },
         {
             "name": "Proposta"
+        },
+        {
+            "name": "Auditoria"
         }
     ]
 }
