@@ -15,8 +15,8 @@ Ajustes necessários:
     ✔ Fluxo de status controlado @done(26-02-25 01:58)
     ✔ Auditoria obrigatória @done(26-02-25 01:58)
     ✔ Criar estrutura de models cliente @done(26-02-25 03:30)
-    ☐ Criar estrutura de models proposta
-    ☐ Criação e submit com Idempotency-Key
+    ✔ Criar estrutura de models proposta @done(26-02-25 03:56)
+    ✔ Criação e submit com Idempotency-Key @done(26-02-25 04:07)
     ✔ Controle de versão da proposta no update @done(26-02-25 02:30)
     ☐ Em Get proposta ajustar o get cliente
     ☐ Controle de versão da proposta ao alterar status

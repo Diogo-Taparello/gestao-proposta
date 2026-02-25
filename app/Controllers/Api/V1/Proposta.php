@@ -197,6 +197,7 @@ class Proposta extends BaseController
 
     #[OAT\Patch(path: '/api/v1/proposta/{id}', summary:"Edita uma proposta", tags:["Proposta"])]
     #[OAT\Parameter(name:"id", in:"path", required:true, description:"ID da Proposta")]
+    #[OAT\Parameter(name:"Idempotency-Key", in:"header", schema: new OAT\Schema(type: "string", format:"uuid"), required:true, description:"Chave única para prevenir requisições duplicadas")]
     #[OAT\RequestBody(
         description:"Objeto do cadastro", 
         required: true,
@@ -219,6 +220,12 @@ class Proposta extends BaseController
     {
         $data = $this->request->getJSON(true);
 
+        $idempotencyKey = $this->request->getHeaderLine('Idempotency-Key');
+        $cache = \Config\Services::cache();
+        if ($cachedResponse = $cache->get($idempotencyKey)) {
+            return $this->response->setJSON(json_decode($cachedResponse));
+        }
+
         $propostaModel = new PropostaModel;
         $proposta = $propostaModel->find($id);
 
@@ -235,10 +242,14 @@ class Proposta extends BaseController
         $auditoriaModel = new AuditoriaModel;
         $auditoriaModel->insert(array('proposta_id' => $id, 'actor' => 'user:1', 'evento' => 'UPDATED_FIELDS', 'payload' => json_encode($data)));
 
-        return $this->respond([
+        $response = array(
             'status' => 'success',
-            'messages' => 'Proposta cadastrada com sucesso!',
+            'messages' => 'Proposta alterada com sucesso!',
             'data'   => ['id_proposta' => $id, 'data' => $data]
-        ], 200);
+        );
+
+        $cache->save($idempotencyKey, json_encode($response), 86400);
+
+        return $this->respond($response, 200);
     }
 }

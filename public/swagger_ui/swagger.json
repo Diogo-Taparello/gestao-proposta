@@ -111,6 +111,16 @@
                         "in": "path",
                         "description": "ID da Proposta",
                         "required": true
+                    },
+                    {
+                        "name": "Idempotency-Key",
+                        "in": "header",
+                        "description": "Chave única para prevenir requisições duplicadas",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
                     }
                 ],
                 "requestBody": {

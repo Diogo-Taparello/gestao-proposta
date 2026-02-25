@@ -1,0 +1,1 @@
+a:3:{s:4:"time";i:1772003080;s:3:"ttl";i:86400;s:4:"data";s:181:"{"status":"success","messages":"Proposta cadastrada com sucesso!","data":{"id_proposta":"1","data":{"cliente_id":1,"produto":"Testando idempotency","valor_mensal":16.9,"versao":2}}}";}
