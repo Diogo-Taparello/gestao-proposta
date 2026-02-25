@@ -185,4 +185,46 @@ class Proposta extends BaseController
             'data'   => $auditorias
         ], 200);
     }
+
+    #[OAT\Patch(path: '/api/v1/proposta/{id}', summary:"Edita uma proposta", tags:["Proposta"])]
+    #[OAT\Parameter(name:"id", in:"path", required:true, description:"ID da Proposta")]
+    #[OAT\RequestBody(
+        description:"Objeto do cadastro", 
+        required: true,
+        content: new OAT\MediaType(
+            mediaType: 'application/json-patch+json:',
+            schema: new OAT\Schema(
+                type: 'object',
+                required: ['cliente_id', 'produto', 'valor_mensal', 'versao'],
+                properties: [
+                    new OAT\Property(property: 'cliente_id', type: 'integer', example: 1),
+                    new OAT\Property(property: 'produto', type: 'string', example:"Produto de Teste 2"),
+                    new OAT\Property(property: 'valor_mensal', type: 'decimal', example:"16.90"),
+                    new OAT\Property(property: 'versao', type: 'integer', example:"1"),
+                ],
+            )
+        )
+    )]
+    #[OAT\Response(response: '200', description: 'Exemplo sucesso edição proposta')]
+    public function update($id)
+    {
+        $data = $this->request->getJSON(true);
+        $proposta = $this->db->table('proposta')->select('*')->where('id', $id)->get()->getRowArray();
+
+        if(intVal($proposta['versao']) !== $data['versao'])
+            return $this->failNotFound('Proposta desatualizada, recarregue os dados com a versão atual e tente novamente!');
+
+        if( !isset($proposta) || !$proposta)
+            return $this->failNotFound('Proposta não encontrada!');
+
+        $data['versao'] = $data['versao'] + 1;
+        $this->db->table('proposta')->where('id', $id)->update($data);
+        $this->db->table('auditoria')->insert(array('proposta_id' => $id, 'actor' => 'user:1', 'evento' => 'UPDATED_FIELDS', 'payload' => json_encode($data)));
+
+        return $this->respond([
+            'status' => 'success',
+            'messages' => 'Proposta cadastrada com sucesso!',
+            'data'   => ['id_proposta' => $id, 'data' => $data]
+        ], 200);
+    }
 }

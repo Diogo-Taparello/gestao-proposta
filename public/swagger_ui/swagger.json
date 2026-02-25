@@ -98,6 +98,61 @@
                         "description": "Exemplo consulta proposta por ID"
                     }
                 }
+            },
+            "patch": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Edita uma proposta",
+                "operationId": "e6077fbc7852e53c914d9ff37dca365c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Objeto do cadastro",
+                    "required": true,
+                    "content": {
+                        "application/json-patch+json:": {
+                            "schema": {
+                                "required": [
+                                    "cliente_id",
+                                    "produto",
+                                    "valor_mensal",
+                                    "versao"
+                                ],
+                                "properties": {
+                                    "cliente_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "produto": {
+                                        "type": "string",
+                                        "example": "Produto de Teste 2"
+                                    },
+                                    "valor_mensal": {
+                                        "type": "decimal",
+                                        "example": "16.90"
+                                    },
+                                    "versao": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exemplo sucesso edição proposta"
+                    }
+                }
             }
         },
         "/api/v1/proposta/": {

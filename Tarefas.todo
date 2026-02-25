@@ -15,7 +15,8 @@ Ajustes necessários:
     ✔ Fluxo de status controlado @done(26-02-25 01:58)
     ✔ Auditoria obrigatória @done(26-02-25 01:58)
     ☐ Criar estrutura de models
-    ☐ Validação cpf/cnpj
     ☐ Criação e submit com Idempotency-Key
+    ✔ Controle de versão da proposta no update @done(26-02-25 02:30)
+    ☐ Controle de versão da proposta ao alterar status
+    ☐ Validação cpf/cnpj
     ☐ Exclusão lógica
-    

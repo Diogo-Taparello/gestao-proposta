@@ -28,6 +28,7 @@ $routes->group('api', function ($routes) {
         $routes->get('proposta/(:num)/auditoria', 'Api\V1\proposta::auditoria/$1');
         $routes->get('proposta', 'Api\V1\proposta::all');
         $routes->post('proposta', 'Api\V1\proposta::add');
+        $routes->patch('proposta/(:num)', 'Api\V1\proposta::update/$1');
 
     });
 });
