@@ -77,11 +77,270 @@
                     }
                 }
             }
+        },
+        "/api/v1/proposta/{id}": {
+            "get": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Lista a proposta de acordo com o ID informado",
+                "operationId": "f70319379734d4dcb61b1ab06e7936a3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo consulta proposta por ID"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta/": {
+            "get": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Lista de propostas com paginação",
+                "operationId": "74b1930de449d19c131715a339f07e9c",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número da página",
+                        "schema": {
+                            "type": "integer",
+                            "default": "1",
+                            "minimum": "1"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Número de registros por página",
+                        "schema": {
+                            "type": "integer",
+                            "default": "20",
+                            "maximum": "50",
+                            "minimum": "1"
+                        }
+                    },
+                    {
+                        "name": "titulo",
+                        "in": "query",
+                        "description": "Título do produto",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Teste"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Status do produto",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "DRAFT",
+                                "SUBMITTED",
+                                "APPROVED",
+                                "REJECTED",
+                                "CANCELED"
+                            ]
+                        },
+                        "example": "APPROVED"
+                    },
+                    {
+                        "name": "origem",
+                        "in": "query",
+                        "description": "Origem do produto",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "APP",
+                                "SITE",
+                                "API"
+                            ]
+                        },
+                        "example": "API"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo consulta cliente por ID"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta": {
+            "post": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Insere uma proposta nova",
+                "operationId": "3603e11ccf8dc2b36fc9f703ddfa938f",
+                "requestBody": {
+                    "description": "Objeto do cadastro",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "cliente_id",
+                                    "produto",
+                                    "valor_mensal",
+                                    "status",
+                                    "origem"
+                                ],
+                                "properties": {
+                                    "cliente_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "produto": {
+                                        "type": "string",
+                                        "example": "Produto de Teste 2"
+                                    },
+                                    "valor_mensal": {
+                                        "type": "decimal",
+                                        "example": "16.90"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "DRAFT",
+                                            "SUBMITTED",
+                                            "APPROVED",
+                                            "REJECTED",
+                                            "CANCELED"
+                                        ],
+                                        "example": "APPROVED"
+                                    },
+                                    "origem": {
+                                        "type": "string",
+                                        "enum": [
+                                            "APP",
+                                            "SITE",
+                                            "API"
+                                        ],
+                                        "example": "SITE"
+                                    },
+                                    "versao": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir proposta"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta/{id}/submit": {
+            "post": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Altera status da proposta para submited",
+                "operationId": "1316e30c76b55fe3dd3e20874a9b3c10",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir proposta"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta/{id}/approve": {
+            "post": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Altera status da proposta para approved",
+                "operationId": "acaf193968b219cd53feeb62bd0e4eb9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir proposta"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta/{id}/reject": {
+            "post": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Altera status da proposta para rejected",
+                "operationId": "597ebc060f817bfb96cdc4329b101dcc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir proposta"
+                    }
+                }
+            }
+        },
+        "/api/v1/proposta/{id}/cancel": {
+            "post": {
+                "tags": [
+                    "Proposta"
+                ],
+                "summary": "Altera status da proposta para canceled",
+                "operationId": "fefeafb93ea429ca2563947a38632bed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da Proposta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Exemplo inserir proposta"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Cliente"
+        },
+        {
+            "name": "Proposta"
         }
     ]
 }
